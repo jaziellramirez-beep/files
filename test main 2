@@ -1,0 +1,107 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+using namespace std;
+
+// Global variable to track the system-wide total number of books borrowed
+int totalBooksBorrowed = 0;
+
+// Function prototypes that is in thing
+int generateUserID();
+void borrowBook(int &bookCount);
+void log(int uid, int bookCount);
+void report();
+
+
+
+// GENERATE USER ID
+int generateUserID() {
+    static int currentID = 1000;
+    return ++currentID;
+}
+
+// BORROW BOOK
+void borrowBook(int &bookCount) {
+    bookCount++;
+    totalBooksBorrowed++;
+}
+
+// LOG
+void log(int uid, int bookCount) {
+    ofstream outFile("library_log.txt", ios::app);
+    
+    cout << "User ID: " << uid << " | Books Borrowed: " << bookCount << endl;
+    
+    if (outFile.is_open()) {
+        outFile << "User ID: " << uid << " | Books Borrowed: " << bookCount << endl;
+        outFile.close();
+    }
+}
+
+// REPORT
+void report() {
+    ofstream outFile("library_log.txt", ios::app);
+    
+    cout << "A total of " << totalBooksBorrowed << " items were checked out today." << endl;
+    
+    if (outFile.is_open()) {
+        outFile << "A total of " << totalBooksBorrowed << " items were checked out today." << endl;
+        outFile.close();
+    }
+}
+#include <iostream>
+
+using namespace std;
+//dont touch
+int main()
+{
+    int uid, bookCount;
+    
+    // Simulating book checkouts for a user 1
+    bookCount = 0;
+    uid = generateUserID(); 
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    log(uid, bookCount);
+    
+    // Simulating book checkouts for another user 2
+    bookCount = 0;
+    uid = generateUserID(); 
+    borrowBook(bookCount);
+    log(uid, bookCount);
+    
+    // Simulating book checkouts for another user 3
+    bookCount = 0;
+    uid = generateUserID(); 
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    log(uid, bookCount);
+    
+    // Simulating book checkouts for another user   4
+    bookCount = 0;
+    uid = generateUserID(); 
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    log(uid, bookCount); 
+    
+    // Simulating book checkouts for another user 5
+    bookCount = 0;
+    uid = generateUserID(); 
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    log(uid, bookCount);
+    
+    // Reporting end-of-day transactions
+    report();
+
+    return 0;
+}
