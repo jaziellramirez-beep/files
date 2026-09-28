@@ -1,1 +1,69 @@
+#include <iostream>
+#include <fstream>
+#include <string>
 
+using namespace std;
+
+// Global variable to track the system-wide total number of books borrowed
+int totalBooksBorrowed = 0;
+
+// Function prototypes
+int generateUserID();
+void borrowBook(int &bookCount);
+void log(int uid, int bookCount);
+void report();
+
+// Main function provided by the lab
+int main() {
+    int uid, bookCount; 
+    // Simulating book checkouts for a user 
+    bookCount = 0; 
+    uid = generateUserID();
+    
+    // Simulate some borrowing
+    borrowBook(bookCount);
+    borrowBook(bookCount);
+    
+    log(uid, bookCount);
+    report();
+    
+    return 0;
+}
+
+// Function definitions
+
+// Generates unique user IDs using a static variable
+int generateUserID() {
+    static int currentID = 1000;
+    return ++currentID;
+}
+
+// Processes book checkout, updating both individual and global counts
+void borrowBook(int &bookCount) {
+    bookCount++;
+    totalBooksBorrowed++;
+}
+
+// Records library transactions into an append-mode file and prints to console
+void log(int uid, int bookCount) {
+    ofstream outFile("library_log.txt", ios::app);
+    
+    cout << "User ID: " << uid << " | Books Borrowed: " << bookCount << endl;
+    
+    if (outFile.is_open()) {
+        outFile << "User ID: " << uid << " | Books Borrowed: " << bookCount << endl;
+        outFile.close();
+    }
+}
+
+// Generates an end-of-day summary to both console and the export file
+void report() {
+    ofstream outFile("library_log.txt", ios::app);
+    
+    cout << "A total of " << totalBooksBorrowed << " items were checked out today." << endl;
+    
+    if (outFile.is_open()) {
+        outFile << "A total of " << totalBooksBorrowed << " items were checked out today." << endl;
+        outFile.close();
+    }
+}
